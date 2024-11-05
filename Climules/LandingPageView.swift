@@ -10,7 +10,7 @@ struct LandingPageView: View {
             VStack(spacing: 40) {
                 // Logo and Title Section
                 VStack(spacing: 8) {
-                    Image("ClimulesLogo") // Make sure the image is correctly named in Assets
+                    Image("Climule") // Make sure the image is correctly named in Assets
                         .resizable()
                         .scaledToFit()
                         .frame(width: 120, height: 120)
