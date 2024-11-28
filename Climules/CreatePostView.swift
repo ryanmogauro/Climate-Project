@@ -12,10 +12,12 @@ struct CreatePostView: View {
     @State private var content: String = ""
     var body: some View {
         VStack{
-            HStack(spacing: 100){
+            HStack{
                 Image("Climule")
                     .resizable()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 50, height: 50)
+                    .padding(.leading, 20)
+                Spacer()
                 HStack(spacing: 20){
                     Image(systemName: "pencil")
                         .symbolRenderingMode(.hierarchical)
@@ -24,27 +26,37 @@ struct CreatePostView: View {
                     Image(systemName: "person.crop.circle")
                         .symbolRenderingMode(.hierarchical)
                 }
+                .padding(.trailing, 20)
             }
             Divider()
                 .frame(height:2)
-                .overlay(.gray)
-            Text("Create Post")
-            TextField(
-                "Title",
-                text: $title,
-                axis: .vertical
-            )
-            .padding(10)
-            .background(Color.accentColor)
-            .lineLimit(3, reservesSpace:true)
+                .overlay(.black)
+            VStack{
+                Text("Create Post")
+                TextField(
+                    "",
+                    text: $title,
+                    prompt: Text("Title").foregroundColor(.white),
+                    axis: .vertical
+                )
+                .padding(10)
+                .background(Color.accentColor)
+                .lineLimit(3, reservesSpace:true)
+                .cornerRadius(8)
 
-            TextField(
-                "Content",
-                text: $content,
-                axis: .vertical
-            )
-            .background(Color.accentColor)
-            .lineLimit(20, reservesSpace:true)
+                TextField(
+                    "",
+                    text: $content,
+                    prompt: Text("Content").foregroundColor(.white),
+                    axis: .vertical
+                )
+                .padding(10)
+                .background(Color.accentColor)
+                .lineLimit(20, reservesSpace:true)
+                .cornerRadius(8)
+            }
+            .padding(20)
+            
             //Takes up as much space as possible pushing content to top of page
             Spacer()
             
