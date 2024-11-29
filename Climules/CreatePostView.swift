@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import OHMySQL
 
 struct CreatePostView: View {
-    @State private var title: String = ""
-    @State private var content: String = ""
+    @State private var titleInput: String = ""
+    @State private var contentInput: String = ""
+
     var body: some View {
         VStack{
             HStack{
@@ -35,7 +37,7 @@ struct CreatePostView: View {
                 Text("Create Post")
                 TextField(
                     "",
-                    text: $title,
+                    text: $titleInput,
                     prompt: Text("Title").foregroundColor(.white),
                     axis: .vertical
                 )
@@ -46,7 +48,7 @@ struct CreatePostView: View {
 
                 TextField(
                     "",
-                    text: $content,
+                    text: $contentInput,
                     prompt: Text("Content").foregroundColor(.white),
                     axis: .vertical
                 )
@@ -54,6 +56,9 @@ struct CreatePostView: View {
                 .background(Color.accentColor)
                 .lineLimit(20, reservesSpace:true)
                 .cornerRadius(8)
+                Button("Submit"){
+                    submitPost(title:titleInput, content:contentInput)
+                }
             }
             .padding(20)
             
@@ -62,6 +67,21 @@ struct CreatePostView: View {
             
         }
         .background(Color("Secondary"))
+    }
+    func submitPost(title:String, content:String){
+        let coordinator = DatabaseManager.shared.coordinator
+        let context = MySQLQueryContext()
+        context.storeCoordinator = coordinator
+        let queryString = "INSERT INTO posts (postID, userID, title, content, created_at) VALUES (2, 1, '\(title)', '\(content)', '1000-01-01 00:00:00')"
+        let request = MySQLQueryRequest(query: queryString)
+                
+                do {
+                    try context.execute(request)
+                    let showSuccessAlert = true
+                } catch {
+                    print("Failed to execute query: \(error)")
+                    let showErrorAlert = true
+                }
     }
 }
 
