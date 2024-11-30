@@ -9,8 +9,13 @@ import SwiftUI
 import OHMySQL
 
 struct CreatePostView: View {
+    enum FocusedField {
+            case titleInput, contentInput
+        }
+    @Binding var forumPage: Bool
     @State private var titleInput: String = ""
     @State private var contentInput: String = ""
+    @FocusState private var focusedField: FocusedField?
 
     var body: some View {
         VStack{
@@ -41,10 +46,13 @@ struct CreatePostView: View {
                     prompt: Text("Title").foregroundColor(.white),
                     axis: .vertical
                 )
+                .foregroundColor(.white)
                 .padding(10)
-                .background(Color.accentColor)
+                .background(Color("Primary"))
                 .lineLimit(3, reservesSpace:true)
                 .cornerRadius(8)
+                .focused($focusedField, equals: .titleInput)
+                
 
                 TextField(
                     "",
@@ -52,14 +60,29 @@ struct CreatePostView: View {
                     prompt: Text("Content").foregroundColor(.white),
                     axis: .vertical
                 )
+                .foregroundColor(.white)
                 .padding(10)
-                .background(Color.accentColor)
+                .background(Color("Primary"))
                 .lineLimit(20, reservesSpace:true)
                 .cornerRadius(8)
-                Button("Submit"){
-                    submitPost(title:titleInput, content:contentInput)
+                .focused($focusedField, equals: .contentInput)
+                Button(action: {
+                    submitPost(title: titleInput, content: contentInput)
+                    forumPage = true
+                }) {
+                    Text("Upload")
+              // Adds padding inside the button around the text
+                        .padding(.horizontal, 40)
+                        .padding(.vertical, 20)
+                        .background(Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)// Adds padding around the entire button
                 }
+
             }
+            .onAppear {
+                            focusedField = .titleInput
+                        }
             .padding(20)
             
             //Takes up as much space as possible pushing content to top of page
@@ -86,5 +109,5 @@ struct CreatePostView: View {
 }
 
 #Preview {
-    CreatePostView()
+    CreatePostView(forumPage: .constant(false))
 }
