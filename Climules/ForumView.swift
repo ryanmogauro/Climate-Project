@@ -23,11 +23,6 @@ struct ForumView: View {
                     .padding(.leading, 20)
                 Spacer()
                 HStack(spacing: 20){
-//                    Button(action: {
-//                        forumPage = false
-//                        print(forumPage)
-//                    }) {
-//                        Text("Upload")}
                     Button(action: {
                         forumPage = false
                     }) {
@@ -39,10 +34,14 @@ struct ForumView: View {
 //                        .symbolRenderingMode(.hierarchical)
                     Image(systemName: "magnifyingglass")
                         .symbolRenderingMode(.hierarchical)
+                    
                     Image(systemName: "person.crop.circle")
                         .symbolRenderingMode(.hierarchical)
+                        
+
                 }
                 .padding(.trailing, 20)
+                .font(.system(size: 25))
             }
             Divider()
                 .frame(height:2)
@@ -67,6 +66,7 @@ struct ForumView: View {
                         .cornerRadius(8)
                     }
                 }
+                .padding(20)
                 
                 Spacer()
                 

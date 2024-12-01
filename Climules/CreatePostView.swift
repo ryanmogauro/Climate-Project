@@ -7,6 +7,7 @@
 
 import SwiftUI
 import OHMySQL
+import UIKit
 
 struct CreatePostView: View {
     enum FocusedField {
@@ -16,7 +17,7 @@ struct CreatePostView: View {
     @State private var titleInput: String = ""
     @State private var contentInput: String = ""
     @FocusState private var focusedField: FocusedField?
-
+    let date = Date()
     var body: some View {
         VStack{
             HStack{
@@ -34,6 +35,7 @@ struct CreatePostView: View {
                         .symbolRenderingMode(.hierarchical)
                 }
                 .padding(.trailing, 20)
+                .font(.system(size: 25))
             }
             Divider()
                 .frame(height:2)
@@ -95,7 +97,12 @@ struct CreatePostView: View {
         let coordinator = DatabaseManager.shared.coordinator
         let context = MySQLQueryContext()
         context.storeCoordinator = coordinator
-        let queryString = "INSERT INTO posts (postID, userID, title, content, created_at) VALUES (2, 1, '\(title)', '\(content)', '1000-01-01 00:00:00')"
+        //No need for postID since it will autoincrement
+        let today = Date.now
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+//        print(formatter.string(from: today))
+        let queryString = "INSERT INTO posts (userID, title, content, created_at) VALUES (1, '\(title)', '\(content)', '\(formatter.string(from: today))')"
         let request = MySQLQueryRequest(query: queryString)
                 
                 do {
